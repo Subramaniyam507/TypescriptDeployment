@@ -51,7 +51,7 @@ modules:
           sap.cloud.service: zbsts
         - Authentication: OAuth2UserTokenExchange
           Name: zbsts_uaa_TyscriptDeployment
-          ServiceInstanceName: TyscriptDeployment-xsuaa-service
+          ServiceInstanceName: uaa_TyscriptDeployment
           ServiceKeyName: uaa_TyscriptDeployment-key
           sap.cloud.service: zbsts
         existing_destinations_policy: ignore
