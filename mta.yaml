@@ -10,6 +10,7 @@ modules:
   - name: TyscriptDeployment-db
   - name: TyscriptDeployment-connectivity
   - name: TyscriptDeployment-destination
+  - name: uaa_TyscriptDeployment
   provides:
   - name: srv-api
     properties:
@@ -56,6 +57,30 @@ modules:
         existing_destinations_policy: ignore
   build-parameters:
     no-source: true
+- name: TyscriptDeployment-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: TyscriptDeployment_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - comsubtypescriptdemo.zip
+      name: comsubtypescriptdemo
+      target-path: resources/
+- name: comsubtypescriptdemo
+  type: html5
+  path: app/typescriptdemo
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
 resources:
 - name: TyscriptDeployment-db
   type: com.sap.xs.hdi-container
@@ -70,8 +95,28 @@ resources:
 - name: TyscriptDeployment-destination
   type: org.cloudfoundry.managed-service
   parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
     service: destination
     service-plan: lite
+  requires:
+  - name: srv-api
 - name: TyscriptDeployment_html_repo_host
   type: org.cloudfoundry.managed-service
   parameters:
@@ -82,12 +127,13 @@ resources:
   type: org.cloudfoundry.managed-service
   parameters:
     config:
-       xsappname: tsxsapp
-       tenant-mode: dedicated
+      tenant-mode: dedicated
+      xsappname: tsxsapp
     path: ./xs-security.json
     service: xsuaa
     service-plan: application
 parameters:
+  deploy_mode: html5-repo
   enable-parallel-deployments: true
 build-parameters:
   before-all:

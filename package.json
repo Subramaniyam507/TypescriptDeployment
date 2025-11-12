@@ -14,10 +14,17 @@
     "@sap/cds-dk": "^9",
     "@types/node": "^22.0.0",
     "tsx": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "cds-plugin-ui5": "^0.13.0",
+    "rimraf": "^5.0.5",
+    "mbt": "^1.2.29"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "watch-typescriptdemo": "cds watch --open com.sub.typescriptdemo/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "undeploy": "cf undeploy TyscriptDeployment --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
   },
   "private": true,
   "imports": {
@@ -28,5 +35,11 @@
       "connectivity": true,
       "destinations": true
     }
-  }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/typescriptdemo"
+  ]
 }
