@@ -23,5 +23,10 @@
   "imports": {
     "#cds-models/*": "./@cds-models/*/index.js"
   },
-  "cds": {}
+  "cds": {
+    "requires": {
+      "connectivity": true,
+      "destinations": true
+    }
+  }
 }

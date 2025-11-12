@@ -25,6 +25,8 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: TyscriptDeployment-db
+      - name: TyscriptDeployment-connectivity
+      - name: TyscriptDeployment-destination
 
   - name: TyscriptDeployment-db-deployer
     type: hdb
@@ -40,3 +42,13 @@ resources:
     parameters:
       service: hana
       service-plan: hdi-shared
+  - name: TyscriptDeployment-connectivity
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
+  - name: TyscriptDeployment-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
