@@ -20,19 +20,19 @@
 			"version": "1.19.5",
 			"toolsId": "c7b8dd39-1ef3-4ad1-bd86-83c26dfaa2d9"
 		},
-		  "crossNavigation": {
-      "inbounds": {
-        "TypeManage": {
-          "semanticObject": "Types",
-          "action": "manage",
-          "title": "{{appTitle}}",
-          "signature": {
-            "parameters": {},
-            "additionalParameters": "allowed"
-          }
-        }
-      }
-    },
+		"crossNavigation": {
+			"inbounds": {
+				"TypeManage": {
+					"semanticObject": "Types",
+					"action": "manage",
+					"title": "{{appTitle}}",
+					"signature": {
+						"parameters": {},
+						"additionalParameters": "allowed"
+					}
+				}
+			}
+		},
 		"dataSources": {
 			"mainService": {
 				"uri": "/odata/v4/test/",
